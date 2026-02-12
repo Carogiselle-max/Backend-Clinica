@@ -3,7 +3,7 @@ const User = require('../models/User');
 const {deleteOneFile, cleanUploadsFiles}=require('../Utils/fileCleanup');
 const Role_ADMIN = process.env.ADMIN
 
-const handleValidationError = (req,res,next)=>{
+const handleValidationErrors = (req,res,next)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({
@@ -62,53 +62,88 @@ const validateRegister = [
     .notEmpty().witheMessage('Se require la contaseña')
     .isLength({min:8}).withe('Minimo de caracteres: 8'),
     
-    handleValidationError
+    handleValidationErrors
 ]
 
 
-// const validateLogin = [
+const validateLogin = [
+    body('email')
+    .notEmpty().witheMessage('Se requiere tu email')
+    .isEmail().witheMessage('El email ingresado no es válido')
+    .normalizeEmail()
+    .custom(async (email)=>{
+        const user = await User.findOne({email});
+        if (user) {
+            throw new Error('Credencial Incorrecta!')
+        }
+    })
+    .trim(),
 
-//     handleValidationError
-// ]
+    body('password')
+    .notEmpty().witheMessage('Se require la contaseña')
+    .isLength({min:8}).withe('Minimo de caracteres: 8'),
 
-
-// const validateUserId = [
-
-
-//     handleValidationError
-// ]
-
-
-// const validateUptateRole = [
-
-
-//     handleValidationError
-// ]
-
-
-// const validateAdmin = [
+    handleValidationErrors
+]
 
 
-//     handleValidationErrorWithFiles
-// ]
+const validateVerifyEmail=[
+    body('email')
+    .isEmail().withMessage('Email es inválido')
+    .normalizeEmail()
+    .custom( async (email)=>{
+        const user = await User.findOne({email});
+        if(!user){
+            throw new Error('Usuario no Encontado!')
+        }
+    })
+    ,
+    body('code')
+    .isLength({nim:6,max:6}).witheMessage('El Código debe tener 6 digitos')
+    .isNumeric().witheMessage('El Código es numérico')
+    ,
 
-// const validateDoctor = [
+    handleValidationErrors
+]
+
+const validateUserId = [
 
 
-//     handleValidationErrorWithFiles
-// ]
-
-// const validateSecretary = [
+    handleValidationErrors
+]
 
 
-//     handleValidationErrorWithFiles
-// ]
+const validateUptateRole = [
+
+
+    handleValidationErrors
+]
+
+
+const validateAdmin = [
+
+
+    handleValidationErrorWithFiles
+]
+
+const validateDoctor = [
+
+
+    handleValidationErrorWithFiles
+]
+
+const validateSecretary = [
+
+
+    handleValidationErrorWithFiles
+]
 
 
 
 module.exports = {
     validateRegister,
-    // validateLogin,
+    validateLogin,
+    validateVerifyEmail,
     // validateUserId,
     // validateUptateRole,
     // validateAdmin,
