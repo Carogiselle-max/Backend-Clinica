@@ -106,37 +106,33 @@ const validateVerifyEmail=[
     handleValidationErrors
 ]
 
-const validateUserId = [
+// const validateUserId = [
+
+//     handleValidationErrors
+// ]
 
 
-    handleValidationErrors
-]
+// const validateUptateRole = [
+
+//     handleValidationErrors
+// ]
 
 
-const validateUptateRole = [
+// const validateAdmin = [
+
+//     handleValidationErrorWithFiles
+// ]
+
+// const validateDoctor = [
 
 
-    handleValidationErrors
-]
+//     handleValidationErrorWithFiles
+// ]
 
+// const validateSecretary = [
 
-const validateAdmin = [
-
-
-    handleValidationErrorWithFiles
-]
-
-const validateDoctor = [
-
-
-    handleValidationErrorWithFiles
-]
-
-const validateSecretary = [
-
-
-    handleValidationErrorWithFiles
-]
+//     handleValidationErrorWithFiles
+// ]
 
 
 
