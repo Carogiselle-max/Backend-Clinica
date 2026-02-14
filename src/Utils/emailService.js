@@ -59,14 +59,14 @@ const sendVerificationEmail = async (email, userName, userCode) => {
                     <div class="container">
                         <div class="content">
                         <h2>¡Bienvenido/a ${userName}!</h2>
-                        <p>Gracias por registrarte en nuestra Tienda de Libros.</p>
+                        <p>Gracias por registrarte en Clinica S.M.</p>
                         <p>Para completar tu registro, por favor verifica tu cuenta usando el siguiente código:</p>
                         <div class="code">${userCode}</div>
                         <p><strong>Este código expira en 15 minutos.</strong></p>
                         <p>Si no solicitaste este registro, puedes ignorar este email.</p>
                         </div>
                         <div class="footer">
-                        <p>© 2025 Bookstore 📚. Todos los derechos reservados.</p>
+                        <p>© 2025 Clinica S.M. - Todos los derechos reservados.</p>
                         </div>
                     </div>
                 </body>

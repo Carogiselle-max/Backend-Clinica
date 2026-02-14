@@ -10,7 +10,7 @@ const router = express.Router();
 // public endpoints
 router.post('/register', authLimiter, validateRegister, register);
 router.post('/login', authLimiter, validateLogin, login);
-router.post('/Verify-email', authLimiter, validateVerifyEmail, verifyEmail);
+router.post('/verify-email', authLimiter, validateVerifyEmail, verifyEmail);
 
 // private endpoints
 router.post('/logout', verifyAuth, logout)

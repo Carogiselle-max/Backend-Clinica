@@ -102,7 +102,7 @@ const verifyEmail = async (req,res,next)=>{
             })
         }
         if(user.verificationCode !== code){
-            return res.status(4000).json({
+            return res.status(400).json({
                 success: false,
                 message: 'Codigo de Verificación Incorrecto'
             })

@@ -64,7 +64,8 @@ userSchema.methods.comparePasswords = async function (userPassword) {
 userSchema.methods.generateVerificationCode = function () {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     this.verificationCode = code;
-    this.codeExpiration = new Date(Date.now()*15*60*1000)
+    this.codeExpiration = new Date(Date.now()+15*60*1000)
+    return code;
 }
 
 module.exports = mongoose.model('User', userSchema)

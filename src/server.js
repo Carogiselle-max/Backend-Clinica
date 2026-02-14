@@ -7,6 +7,7 @@ const cookieParser =require('cookie-parser')
 const { connectDB } = require('./config/database');
 const authRoutes = require('./routes/auth.routes');
 const { globalLimiter } = require('./middlewares/rateLimiter');
+const errorHandler = require('./middlewares/errorHandler');
 // const userRoutes = require('./routes/user.routes');
 
 // Use express to create the server

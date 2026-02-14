@@ -1,4 +1,4 @@
-const { body, params, validationResult } = require('express-validator');
+const { body, param, validationResult } = require('express-validator');
 const User = require('../models/User');
 const {deleteOneFile, cleanUploadsFiles}=require('../Utils/fileCleanup');
 const Role_ADMIN = process.env.ADMIN
@@ -62,7 +62,7 @@ const validateRegister = [
     .notEmpty().withMessage('Se require la contaseña')
     .isLength({min:8}).withMessage('Minimo de caracteres: 8'),
     
-    handleValidationErrors
+    handleValidationErrorWithFiles
 ]
 
 
@@ -106,10 +106,18 @@ const validateVerifyEmail=[
     handleValidationErrors
 ]
 
-// const validateUserId = [
-
-//     handleValidationErrors
-// ]
+const validateUserId = [
+    param('id')
+        .isMongoId().withMessage('El id proporcionado no es Válido')
+        .custom(async (id)=>{
+            const user = await User.findById(id);
+            if(!user){
+                throw new Error('El Usuario no existe o no fue encontradoa')
+            }
+        }),
+    
+    handleValidationErrors
+]
 
 
 // const validateUptateRole = [
