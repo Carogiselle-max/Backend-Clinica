@@ -8,7 +8,7 @@ const handleValidationErrors = (req,res,next)=>{
     if (!errors.isEmpty()) {
         return res.status(400).json({
             ok:false,
-            message:'Error De Validacion',
+            message:'Errores De Validacion',
             errors: errors.mapped()
         })
     }
@@ -35,20 +35,20 @@ const handleValidationErrorWithFiles = (req,res,next)=>{
 
 const validateRegister = [
     body('name')
-    .notEmpty().witheMessage('Se requiere tu nombre')
-    .isString().witheMessage('Solo texto')
-    .isLength({min:2, max:20}).withe('Minimo de caracteres: 2, Maximo: 20')
+    .notEmpty().withMessage('Se requiere tu nombre')
+    .isString().withMessage('Solo texto')
+    .isLength({min:2, max:20}).withMessage('Minimo de caracteres: 2, Maximo: 20')
     .trim(),
 
     body('surname')
-    .notEmpty().witheMessage('Se requiere tu apellido')
-    .isString().witheMessage('Solo texto')
-    .isLength({min:3, max:20}).withe('Minimo de caracteres: 3, Maximo: 20')
+    .notEmpty().withMessage('Se requiere tu apellido')
+    .isString().withMessage('Solo texto')
+    .isLength({min:3, max:20}).withMessage('Minimo de caracteres: 3, Maximo: 20')
     .trim(),
 
     body('email')
-    .notEmpty().witheMessage('Se requiere tu email')
-    .isEmail().witheMessage('El email no tiene el formato válido')
+    .notEmpty().withMessage('Se requiere tu email')
+    .isEmail().withMessage('El email no tiene el formato válido')
     .normalizeEmail()
     .custom(async (email)=>{
         const user = await User.findOne({email});
@@ -59,8 +59,8 @@ const validateRegister = [
     .trim(),
 
     body('password')
-    .notEmpty().witheMessage('Se require la contaseña')
-    .isLength({min:8}).withe('Minimo de caracteres: 8'),
+    .notEmpty().withMessage('Se require la contaseña')
+    .isLength({min:8}).withMessage('Minimo de caracteres: 8'),
     
     handleValidationErrors
 ]
@@ -68,8 +68,8 @@ const validateRegister = [
 
 const validateLogin = [
     body('email')
-    .notEmpty().witheMessage('Se requiere tu email')
-    .isEmail().witheMessage('El email ingresado no es válido')
+    .notEmpty().withMessage('Se requiere tu email')
+    .isEmail().withMessage('El email ingresado no es válido')
     .normalizeEmail()
     .custom(async (email)=>{
         const user = await User.findOne({email});
@@ -80,8 +80,8 @@ const validateLogin = [
     .trim(),
 
     body('password')
-    .notEmpty().witheMessage('Se require la contaseña')
-    .isLength({min:8}).withe('Minimo de caracteres: 8'),
+    .notEmpty().withMessage('Se require la contaseña')
+    .isLength({min:8}).withMessage('Minimo de caracteres: 8'),
 
     handleValidationErrors
 ]
@@ -99,8 +99,8 @@ const validateVerifyEmail=[
     })
     ,
     body('code')
-    .isLength({nim:6,max:6}).witheMessage('El Código debe tener 6 digitos')
-    .isNumeric().witheMessage('El Código es numérico')
+    .isLength({nim:6,max:6}).withMessage('El Código debe tener 6 digitos')
+    .isNumeric().withMessage('El Código es numérico')
     ,
 
     handleValidationErrors

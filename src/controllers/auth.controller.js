@@ -1,5 +1,5 @@
 const User = require('../models/User')
-const { sendVerificationEmail }=require('../Utils/emialService')
+const { sendVerificationEmail } = require('../Utils/emailService')
 const jwt = require('jsonwebtoken')
 const fs = require('fs')
 const { deleteOneFile } = require('../Utils/fileCleanup')
@@ -27,7 +27,7 @@ const register = async (req,res,next)=>{
         } catch (error) {
             await User.findByIdAndDelete(newUser._id);
             if (req.file) {
-                await fs.unlink(req.file.path)
+                await fs.unlink(req.file.path).catch(err => console.error("Error borrando archivo:", err));
             }
             return res.status(500).json({
                 ok:false,

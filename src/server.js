@@ -1,10 +1,12 @@
 const express = require('express');
 require('dotenv').config();
 const morgan = require('morgan');
+const cookieParser =require('cookie-parser')
 
 // Import Routes
 const { connectDB } = require('./config/database');
-// const authRoutes = require('./routes/auth.routes');
+const authRoutes = require('./routes/auth.routes');
+const { globalLimiter } = require('./middlewares/rateLimiter');
 // const userRoutes = require('./routes/user.routes');
 
 // Use express to create the server
@@ -14,13 +16,17 @@ connectDB()
 
 // Middleware
 app.use(morgan('dev'));
+app.use(globalLimiter)
+app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Use Routes
-// app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/auth', authRoutes);
 // app.use('/api/v1/user', userRoutes);
 
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
