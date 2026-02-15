@@ -1,36 +1,31 @@
-
-const express = require('express');
-const router = express.Router();
-
-const { verifyAuth, verifyAdmin } = require('../middlewares/auth');
-
+// src/routes/user.Routes.js
+const express = require("express");
+const { verifyAuth, verifyAdmin } = require("../middlewares/auth");
 const {
   getAllUsers,
   getUserById,
-  deleteUser,
-  updateUserRole
-} = require('../controllers/user.controller');
+  updateUserRole,
+  deleteUser
+} = require("../controllers/user.controller");
+
+const router = express.Router();
 
 
-const {
-  validateUserId,
-  validateUpdateRole
-} = require('../middlewares/user');
-
-// las rutas protegidas
+//router.use(verifyAuth, verifyAdmin); // 
 
 
-
-// GET /users
-router.get('/',  getAllUsers);
-// GET /users/:id
-
-router.get('/:id', validateUserId, getUserById);
-
-// patch /users/:id
-router.patch('/:id/role', validateUserId, validateUpdateRole, updateUserRole);
-
-// DELETE /users/:id
-router.delete('/:id', validateUserId, deleteUser);
+// Rutas de usuarios
+router.get("/", getAllUsers);                     // Obtener todos los usuarios
+router.get("/:id", getUserById);                 // Obtener usuario por ID
+router.patch("/:id/role", updateUserRole);       // Actualizar rol de usuario
+router.delete("/:id", deleteUser);               // Eliminar usuario
 
 module.exports = router;
+
+
+//RUTAS PRIVADAS PARA ADMINISTRACIÓN DE USUARIOS
+//router.get('/', getAllUsers);
+//GET USER BY ID
+//router.get('/:id', validateUserId, getUserById)
+//router.patch('/:id/role', validateMongoID, validateUpdateRole, updateUserRole);
+//router.delete('/:id',validateMongoID, deleteUser);

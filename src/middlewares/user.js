@@ -1,32 +1,32 @@
+//Verificar si el usuario es admin o superadm
 
 
-const { body, param, validationResult } = require('express-validator');
-const User = require("../models/User");
+const verifyAdmin = (req, res, next) => {
+    if(req.user.role !== process.env.ADMIN_ROLE && req.user.role !== process.env.SUPER_ADMIN_ROLE){
+        return res.status(403).json({
+            ok:false,
+            message: "Acceso denegado. Se requieren permisos de administrador"
+        })
+    }
+    next()
+}
 
+//Verificar si el usuario es superadm
+const verifySuperAdmin = (req,res,next) => {
+    if(req.user.role !== process.env.SUPER_ADMIN_ROLE){
+        return res.status(403).json({
+            ok:false,
+            message:'Acceso denegado. Se requieren permisos de super administrador'
+        })
+    }
+    next();
+}
 
-// Validar ID de usuario (para GET, PATCH, DELETE)
-const validateUserId = [
-  param("id")
-    .isMongoId()
-    .withMessage("ID inválido")
-    .custom(async (id) => {
-      const user = await User.findById(id);
-      if (!user) {
-        throw new Error("Usuario no encontrado");
-      }
-    })
-];
-
-// Validar actualización de rol (PATCH)
-const validateUpdateRole = [
-  body("role")
-    .notEmpty()
-    .withMessage("El rol es obligatorio")
-    .isIn(["admin", "doctor", "patient"])
-    .withMessage("Rol inválido")
-];
 
 module.exports = {
-  validateUserId,
-  validateUpdateRole
-};
+    verifyAdmin,
+    verifySuperAdmin
+}
+
+
+
