@@ -1,7 +1,6 @@
 const { body, param, validationResult } = require('express-validator');
 const User = require('../models/User');
 const {deleteOneFile, cleanUploadsFiles}=require('../Utils/fileCleanup');
-const Role_ADMIN = process.env.ADMIN
 
 const handleValidationErrors = (req,res,next)=>{
     const errors = validationResult(req);
@@ -99,7 +98,7 @@ const validateVerifyEmail=[
     })
     ,
     body('code')
-    .isLength({nim:6,max:6}).withMessage('El Código debe tener 6 digitos')
+    .isLength({min:6,max:6}).withMessage('El Código debe tener 6 digitos')
     .isNumeric().withMessage('El Código es numérico')
     ,
 
@@ -148,7 +147,7 @@ module.exports = {
     validateRegister,
     validateLogin,
     validateVerifyEmail,
-    // validateUserId,
+    validateUserId,
     // validateUptateRole,
     // validateAdmin,
     // validateDoctor,
