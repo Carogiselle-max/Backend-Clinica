@@ -1,4 +1,4 @@
-//Verificar si el usuario es admin o superadm
+//Verificar si el usuario es admin
 
 
 const verifyAdmin = (req, res, next) => {
