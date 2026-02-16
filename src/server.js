@@ -1,16 +1,17 @@
 const express = require('express');
 require('dotenv').config();
 const morgan = require('morgan');
+const cookieParser =require('cookie-parser')
 
-// Import Routes
-
-
-const userRoutes = require('./routes/user.Routes');
 
 
 // Import Routes
 const { connectDB } = require('./config/database');
-// const authRoutes = require('./routes/auth.routes');
+const authRoutes = require('./routes/auth.routes');
+const { globalLimiter } = require('./middlewares/rateLimiter');
+const errorHandler = require('./middlewares/errorHandler');
+const userRoutes = require('./routes/user.Routes');
+const createSuperAdmin = require("./utils/createSuperAdmin");
 
 // Use express to create the server
 const app = express();
@@ -18,20 +19,20 @@ const app = express();
 connectDB()
 
 
-
 // Middleware
 app.use(morgan('dev'));
+app.use(globalLimiter)
+app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Use Routes
-// app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/user', userRoutes);
 
 // Routes   
 
-
-
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
