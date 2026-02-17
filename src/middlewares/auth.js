@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { verifyAdmin, verifySuperAdmin } = require('./user');
 
 const verifyAuth = async (req,res,next)=>{
     try {
@@ -31,5 +32,5 @@ const verifyAuth = async (req,res,next)=>{
 
 module.exports={
     verifyAuth,
-
+    verifyAdmin,
 }

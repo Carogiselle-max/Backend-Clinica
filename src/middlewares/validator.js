@@ -14,7 +14,7 @@ const handleValidationErrors = (req,res,next)=>{
     next();
 }
 
-const handleValidationErrorWithFiles = (req,res,next)=>{
+const handleValidationErrorsWithFiles = (req,res,next)=>{
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         if(req.file){
@@ -61,7 +61,7 @@ const validateRegister = [
     .notEmpty().withMessage('Se require la contaseña')
     .isLength({min:8}).withMessage('Minimo de caracteres: 8'),
     
-    handleValidationErrorWithFiles
+    handleValidationErrorsWithFiles
 ]
 
 
@@ -115,8 +115,30 @@ const validateUserId = [
             }
         }),
     
+
     handleValidationErrors
 ]
+
+
+
+const validateUpdateRole = [
+    body('role')
+        .notEmpty().withMessage('Debe proporcionar el rol del usuario')
+        .isIn(['user', 'admin']).withMessage('El rol debe ser: user o admin'),
+    
+    handleValidationErrors 
+];
+
+
+
+const validateMongoID = [
+  param('id')
+  .isMongoId().withMessage('El ID no es válido'),
+
+  handleValidationErrors
+]
+
+
 
 
 // const validateUptateRole = [
@@ -148,8 +170,9 @@ module.exports = {
     validateLogin,
     validateVerifyEmail,
     validateUserId,
-    // validateUptateRole,
-    // validateAdmin,
+    validateUpdateRole,
+    validateMongoID,
+    //validateAdmin,
     // validateDoctor,
     // validateSecretary,
 }

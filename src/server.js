@@ -11,13 +11,14 @@ const authRoutes = require('./routes/auth.routes');
 const { globalLimiter } = require('./middlewares/rateLimiter');
 const errorHandler = require('./middlewares/errorHandler');
 const userRoutes = require('./routes/user.Routes');
-const createSuperAdmin = require("./utils/createSuperAdmin");
+const createAdmin = require("./Utils/createAdmin");
 
 // Use express to create the server
 const app = express();
 //  Database
 connectDB()
 
+createAdmin();
 
 // Middleware
 app.use(morgan('dev'));
